@@ -12,19 +12,17 @@ module.exports = function getZerosCount(number, base) {
   let multipliers = [];
   let factors = findFactors(base);
   let multiplier = factors[factors.length - 1];
+  let sqr = 0
+  let lastEl = factors[factors.length - 1];
+  while (lastEl && lastEl === multiplier) {
+    sqr++;
+    lastEl = factors[factors.length - (1 + sqr)]
+  }
   while (multiplier <= number) {
     multipliers.push(multiplier);
     multiplier *= factors[factors.length - 1];
   }
-  // factors.map((e) => {
-  //   let multiplier = e;
-  //   while (multiplier <= number) {
-  //     multipliers.push(multiplier);
-  //     multiplier *= e;
-  //   }
-  // });
+
   const reducer = (sum, element) => sum + Math.floor(number / element);
-  return multipliers.reduce(reducer, 0);
+  return Math.floor(multipliers.reduce(reducer, 0) / sqr);
 };
-// const zerosCount = getZerosCount(10, 10);
-// console.log(zerosCount);
